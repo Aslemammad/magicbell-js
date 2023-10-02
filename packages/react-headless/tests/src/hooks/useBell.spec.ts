@@ -1,5 +1,5 @@
 import faker from '@faker-js/faker';
-import { mockHandlers, setupMockServer } from '@magicbell/utils';
+import { setupMockServer } from '@magicbell/utils';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import useBell from '../../../src/hooks/useBell';
@@ -7,7 +7,7 @@ import clientSettings from '../../../src/stores/clientSettings';
 import { useNotificationStoresCollection } from '../../../src/stores/notifications';
 import NotificationFactory from '../../factories/NotificationFactory';
 
-const server = setupMockServer(...mockHandlers);
+const server = setupMockServer();
 
 beforeEach(() => {
   clientSettings.setState({
@@ -18,10 +18,7 @@ beforeEach(() => {
 
   const { result } = renderHook(() => useNotificationStoresCollection());
   const notifications = NotificationFactory.buildList(3, { seenAt: null });
-
-  act(() => {
-    result.current?.setStore('default', {}, { notifications });
-  });
+  result.current?.setStore('default', {}, { notifications });
 });
 
 test('returns the store with props and helper methods', () => {

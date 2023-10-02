@@ -1,21 +1,18 @@
 import { useNotificationFactory } from '@magicbell/react-headless';
-import { mockHandlers, setupMockServer } from '@magicbell/utils';
 import { screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
-import * as React from 'react';
+import React from 'react';
 
 import { NotificationContent } from '../../../../src';
 import { renderWithProviders as render } from '../../../__utils__/render';
 import { sampleNotification } from '../../../factories/NotificationFactory';
 
-setupMockServer(...mockHandlers);
-
 beforeEach(() => {
-  jest.useFakeTimers();
+  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  jest.useRealTimers();
+  vi.useRealTimers();
 });
 
 test('renders the content as returned from the API, without sanitizing', () => {
@@ -39,7 +36,7 @@ test('renders the content as returned from the API, without sanitizing', () => {
 });
 
 test('replaces the content of time elements with a relative datetime', async () => {
-  jest.setSystemTime(1615373877120);
+  vi.setSystemTime(1615373877120);
 
   const { result } = renderHook(() =>
     useNotificationFactory({
@@ -58,7 +55,7 @@ test('replaces the content of time elements with a relative datetime', async () 
 });
 
 test('does not replace time elements in upper scopes', async () => {
-  jest.setSystemTime(1615460277120);
+  vi.setSystemTime(1615460277120);
 
   const { result } = renderHook(() =>
     useNotificationFactory({
@@ -84,7 +81,7 @@ test('does not replace time elements in upper scopes', async () => {
 });
 
 test('time elements without dateTime attribute are ignored by timeAgo', async () => {
-  jest.setSystemTime(1615460277120);
+  vi.setSystemTime(1615460277120);
 
   const { result } = renderHook(() =>
     useNotificationFactory({

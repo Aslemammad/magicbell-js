@@ -9,8 +9,3 @@ export const config = {
   },
   channels: [],
 };
-
-export const wsAuth = {
-  keyName: 'rerP7g.9NH_TA',
-  mac: 'L8ezYmgnM9Mp4yYJHYIPqTH+WsyY0r6pr4AcIyqJzSU=',
-};

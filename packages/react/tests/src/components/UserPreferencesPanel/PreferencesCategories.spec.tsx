@@ -2,13 +2,13 @@ import { useNotificationPreferences } from '@magicbell/react-headless';
 import { mockHandlers, setupMockServer } from '@magicbell/utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as React from 'react';
+import { vi } from 'vitest';
 
 import PreferencesCategories from '../../../../src/components/UserPreferencesPanel/PreferencesCategories';
 import { renderWithProviders as render } from '../../../__utils__/render';
 import { sampleNotificationPreferences } from '../../../factories/NotificationPreferencesFactory';
 
-setupMockServer(...mockHandlers);
+setupMockServer(mockHandlers.getConfig, mockHandlers.ablyAuth, mockHandlers.ablyRequestToken);
 
 describe('PreferencesCategories component', () => {
   describe('no categories', () => {
@@ -26,7 +26,7 @@ describe('PreferencesCategories component', () => {
       });
     });
 
-    afterEach(() => jest.clearAllMocks());
+    afterEach(() => vi.clearAllMocks());
 
     // Note: It is also important that these are physically ordered correctly.
     // How do we check for this using @testing-library/react?
@@ -68,7 +68,7 @@ describe('PreferencesCategories component', () => {
     });
 
     test('it calls the onChange callback when preferences are changed', async () => {
-      const onChangeSpy = jest.fn();
+      const onChangeSpy = vi.fn();
       render(<PreferencesCategories onChange={onChangeSpy} />);
 
       const checkboxes = screen.getAllByRole('checkbox');

@@ -14,10 +14,7 @@ import IRemoteNotification from '../types/IRemoteNotification';
  */
 export default function RealtimeListener() {
   const collection = useNotificationStoresCollection();
-  const settings = clientSettings.getState();
-  const client = settings.getClient();
-  const apiKey = settings.apiKey;
-  const user = settings.userExternalId || settings.userEmail;
+  const client = clientSettings.getState().getClient();
 
   const fetchAndResetAll = () => collection.fetchAllStores({ page: 1 }, { reset: true });
   const fetchAndPrependAll = () => collection.fetchAllStores({ page: 1 }, { prepend: true });
@@ -26,7 +23,10 @@ export default function RealtimeListener() {
   const removeNotification = (data: IRemoteNotification) => collection.deleteNotification(data, { persist: false });
 
   useEffect(() => {
-    if (!apiKey || !user) return;
+    // MSW doesn't seem to catch the requests made by Ably, so we skip this
+    // for the time being.
+    if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') return;
+
     const listen = client.listen();
 
     listen.forEach((event) => {
@@ -35,7 +35,7 @@ export default function RealtimeListener() {
     });
 
     return () => listen.close();
-  }, [client, apiKey, user]);
+  }, [client]);
 
   useMagicBellEvent('reconnected', fetchAndResetAll);
   useMagicBellEvent('notifications.new', fetchAndPrependAll, { source: 'remote' });

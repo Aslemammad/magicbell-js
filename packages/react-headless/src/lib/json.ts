@@ -12,7 +12,9 @@ export function parseJSON(obj: Record<string, unknown> | string | null) {
     try {
       return JSON.parse(obj);
     } catch (e) {
-      // intentionally left blank
+      // Catching and not rethrowing error is expected and tested.
+      // eslint-disable-next-line no-console
+      console.warn('"customAttributes" is not valid JSON');
     }
   }
 
