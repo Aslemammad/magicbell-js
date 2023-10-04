@@ -20,6 +20,10 @@ beforeEach(() => {
   });
 });
 
+afterAll(() => {
+  server.close();
+});
+
 describe('useNotificationFactory', () => {
   const json = NotificationFactory.build();
 

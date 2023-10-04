@@ -15,3 +15,8 @@ beforeEach(() => {
   useConfig.setState({ lastFetchedAt: Date.now() });
   useNotificationPreferences.setState({ lastFetchedAt: Date.now() });
 });
+
+afterEach(() => {
+  useConfig.destroy();
+  useNotificationPreferences.destroy();
+});

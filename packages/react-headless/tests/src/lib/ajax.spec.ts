@@ -15,6 +15,10 @@ beforeEach(() => {
 
 const server = setupMockServer();
 
+afterAll(() => {
+  server.close();
+});
+
 describe('.deleteAPI', () => {
   it('deleteAPI sends a DELETE request', async () => {
     const status = server.intercept('all');
