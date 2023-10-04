@@ -151,7 +151,7 @@ export default class Notification {
         const parsedCustomAttributes = JSON.parse(customAttributes);
         return { customAttributes: parsedCustomAttributes, ...otherAttrs };
       } catch (e) {
-        // intentionally left blank
+        console.warn('"customAttributes" is not valid JSON');
       }
     }
 

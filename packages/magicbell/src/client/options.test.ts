@@ -1,3 +1,5 @@
+import { expect, test } from 'vitest';
+
 import { assertHasRequiredOptions, assertHasSomeOptions, assertHasValidOptions } from './options';
 
 test('throws if one of the options is in unexpected format', async () => {

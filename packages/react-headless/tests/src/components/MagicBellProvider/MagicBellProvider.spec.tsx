@@ -2,11 +2,12 @@ import faker from '@faker-js/faker';
 import { mockHandlers, setupMockServer } from '@magicbell/utils';
 import { render } from '@testing-library/react';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import { MagicBellProvider, useConfig } from '../../../../src';
 import * as ajax from '../../../../src/lib/ajax';
 
-setupMockServer(...mockHandlers);
+setupMockServer(mockHandlers.getConfig, mockHandlers.ablyAuth, mockHandlers.ablyRequestToken);
 
 describe('components', () => {
   describe('MagicBellProvider', () => {
@@ -21,14 +22,12 @@ describe('components', () => {
         </MagicBellProvider>,
       );
 
-      expect(container.innerHTML).toContain(
-        'We are gradually adding new functionality and we welcome your suggestions and feedback.',
-      );
+      expect(container).toMatchSnapshot();
     });
 
     it('fetches config', async () => {
       useConfig.setState({ lastFetchedAt: null });
-      const spy = jest.spyOn(ajax, 'fetchAPI');
+      const spy = vi.spyOn(ajax, 'fetchAPI');
 
       render(
         <MagicBellProvider apiKey={apiKey} userExternalId={userExternalId}>
@@ -47,7 +46,7 @@ describe('components', () => {
       });
 
       it('does not fetch config', async () => {
-        const spy = jest.spyOn(ajax, 'fetchAPI');
+        const spy = vi.spyOn(ajax, 'fetchAPI');
 
         render(
           <MagicBellProvider apiKey={apiKey} userExternalId={userExternalId}>

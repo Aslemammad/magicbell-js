@@ -1,9 +1,10 @@
-import { eventStream, mockHandlers, setupMockServer } from '@magicbell/utils';
+import { eventStream, setupMockServer } from '@magicbell/utils';
+import { beforeEach } from 'vitest';
 
 import { Client } from '../client/client';
 import { createListener } from './listen';
 
-const server = setupMockServer(...mockHandlers);
+const server = setupMockServer();
 let listen;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
